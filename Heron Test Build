@@ -1,15 +1,222 @@
 #include "stdafx.h"
 #include <iostream>
 #include <iomanip>
+#include <cmath>
+#include <string>
 
 using namespace std;
 
+bool room2open = false;
+bool cameratriggerdone = false;
+bool screwdriver = false;
+int roomcounter = 0;
+//int roomtimer = 0
+bool panelsighted = false;
+bool greenpanelon = true;
+bool dangertime1 = false;
+
+class dialogues
+{
+private:
+	char caller;
+
+public:
+	void introduction();
+	void topdecision();
+	void cameratrigger();
+	void room2decision();
+};
+
+void dialogues::introduction()
+{
+	cout << "\n\nYou are in a small, rectangular room. On either end of the room sit heavy metal sliding doors with control panels next to them.\nOne panel has a glowing green LED, and the other a red one. A lone camera sits in the corner next to the green door, occasionally blinking red.\n" << endl;
+}
+
+void dialogues::cameratrigger()
+{
+	roomcounter = 4;
+	cout << "\n\nYou hear the intercomm next to the green panel crackle to life, and a familiar-sounding voice comes through.\n'ah, I see you're finally awake.' The voice deduces. 'You probably don't remember much, Picklr, but I can tell you that you're in a test, and that the test is to escape the room in the given time.'\n'I'm permitted to give you one hint: look under your cot for some help. Good Luck, Picklr.'\nThe voice cuts out with a harsh click as he puts the intercomm back on its hook.\n" << endl;
+	cameratriggerdone = true;
+}
+
+///START OF ROOM 1
+
+void dialogues::topdecision()
+{
+	//room2dialogues caller2;
+	int decision;
+	dialogues caller;
+	char meme;
+	cout << "\nPress 1 to observe the green panel.\nPress 2 to observe the red panel.\nPress 3 to press your face up to the camera.\nPress 4 to wait for a bit.\n";
+	if (roomcounter > 3)
+		cout << "Press 5 to look under the cot.\n";
+	if (panelsighted == true)
+		cout << "Press 6 to pry open the loose panel.\n";
+	if (room2open == true)
+		cout << "Press 7 to enter the next room.\n\n";
+	cin >> meme;
+
+	switch (meme)
+	{
+	case '1':
+		cout << "\nYup, thats a panel." << endl << "You see several screws around the edges of the panel, and a 10-key numpad below the green LED.";
+		if (screwdriver == true && greenpanelon == true)
+		{
+			cout << "\nWait, you have a screwdriver! Do you want do undo the paneling?\n\nPress 1 to remove the panel.\nPress 2 (or anything else, really) to not do that thing I just said." << endl;
+			cin >> decision;
+			if (decision == 1)
+			{
+				cout << "\nYou take a minute to undo the panelling, carefully undoing each screw and placing them at your feet, before taking off the panel itself.\nYou see some complex wiring that you decide not to mess with. In the centre of the panel's interior is a small, central wirebox. Written on it are 4 sloppily written letters.\n\n  M E M E.\n\nYou try to figure out what it memes.";
+				greenpanelon = false;
+				roomcounter += 1;
+			}
+		}
+		else if (greenpanelon == false)
+			cout << "\nThe panel has been removed, exposing the internals.\n";
+		cout << "\n\nPress 1 to attempt to enter a code into the numpad.\nPress 2 to not do that.\n\n";
+		cin >> decision;
+		if (decision == 1)
+		{
+			int code;
+			cout << "\nThe numpad awaits your data, Picklr." << endl << endl;
+			cin >> code;
+			if (code == 1313)
+			{
+				cout << "The hydraulics on the door make a loud \"ppssshshshshshshh\" sound, and the door to your left slides open, revealing the next room.\nThe voice comes back on the intercomm:\n\"Good job, picklr! I knew you could do it. I've seen you conquer things worse than this back in the depths of pol!\nNow go ahead to the next room to start the next trial!\"\nThe intercomm clicks as he sets it on the hook.";
+				cout << "\nPress 1 to enter the next room, press 2 to stay for a bit.\n";
+				room2open = true;
+				roomcounter = -10000;
+				cin >> decision;
+				if (decision == 1)
+				{
+					cout << "You step through the door to the next area of the trial.\n\n";
+					//caller2.room2dialogue();
+				}
+			}
+			else
+				cout << "\n\nThe numpad buzzes a harsh tone at you, rather rudely. \nWow. You've obviously upset it by entering the wrong code. Great job, jerk.\n You return to the centre of the room.\n\n";
+		}
+		break;
+		//He is Rick "Picklr" Picklerer
+	case '2':
+		cout << "\nThe harsh red LED hurts your eyes as you look at the panel.\nThe panel has a number of buttons that look like they should be illuminated but aren't, surrounding a large intercomm speaker.\n";
+		if (cameratriggerdone == true)
+			cout << "You try to wrap your head around this panel but you cant seem to figure it out.\n\nYou hear the intercomm skeet back on.\n\n\"Messin' with that one won't get you far Picklr.\"\nThe intercomm skerts back off once again." << endl;
+		break;
+
+	case '3':
+		cout << "You rub your face up to the camera.\n" << endl;
+		system("pause");
+		if (roomcounter < 3 && cameratriggerdone == false)
+		{
+			cout << "\nA voice comes through the intercomm:\n'Woah there, cowboy! Gettin' a bit close for comfort!'" << endl;
+			caller.cameratrigger();
+		}
+		else
+		{
+			cout << "\nYou look like drake & gosh darned idiot." << endl;
+
+		}
+
+
+		break;
+
+	case '4':
+		cout << "You stand in the centre/center /*erierre*/ of the room.\n";
+		if (roomcounter > 4)
+		{
+			cout << "You feel that this is a tremendous waste of time in this timed challenge... \nHang on a second... is that...? \nYes! That's a loose panel. Maybe you could pry it open with something!\n" << endl;
+			panelsighted = true;
+		}
+		break;
+	}
+
+	if (roomcounter > 3)
+	{
+		switch (meme)
+		{
+		case '5':
+			if (screwdriver == false)
+			{
+				cout << "\nYou find an old screwdriver. It looks like should come in handy.\n";
+				cout << "You got a screwdriver!\n";
+				screwdriver = true;
+				break;
+			}
+			else
+				cout << "There's a small outline in the dust of where the screwdriver used to be. You feel like the screwdriver misses its home.\n ;_( \n";
+			break;
+		case '6':
+			if (panelsighted == true && screwdriver == true)
+			{
+				cout << "\nYou pry open the panel with your trusty screwdriver and see a small sheet with poorly written letters on it. You can barely decipher the lettering.\nIt reads (you think):\n\n";
+				cout << "  1 6 4 2 3 7 8 0 9 5" << endl;
+				cout << "  M J Q W E Z A O P U" << endl;
+				cout << "\nYou calmly put the panel back in place.\n";
+				roomcounter += 1;
+			}
+			else if (panelsighted == true && screwdriver == false)
+			{
+				cout << "Using your hands to try to get the panel detached wasn't the best idea you've ever had. You was a significant amount of time and now your hands hurt. oof." << endl;
+				roomcounter += 2;
+			}
+		case '7':
+			if (room2open == true)
+				//caller2.room2decision
+				break;
+		}
+	}
+
+
+	roomcounter += 1;
+
+	if (roomcounter == 3)
+	{
+		caller.cameratrigger();
+	}
+	if (roomcounter > 17 && dangertime1 == false)
+	{
+		cout << "\nThe Intercomm skrrrts back online, with the same familiar voice speaking.\n\"You'd better start hustling, picklr, you're runnin' the clock short!\"";
+		dangertime1 = true;
+	}
+	if (roomcounter > 22)
+	{
+		cout << "A harsh sounding buzzer goes off. You can see a fast spreading gas enter the room.\nYou've suffered a fate worse than death: normiefication.\nGood job, loser.\n\n";
+		system("pause");
+		cout << "\n\nCREDITS:\nTop terrierre memerey: James and Hunter\nMoral memesport: Jordan\nSound Design: Shigero Miyamoto\nCode: James and Hunter(sometimes)\nInspiration: Autism\nConcept Art: Walt Disney's ghost and Cole Rosane\nIn loving memory: Harambe memes. They died before they lived.\nSpecial thanks: You, nerd.\n";
+		system("pause");
+		exit(0);
+
+	}
+
+	caller.topdecision();
+}
+
+
+
+
 int main()
 {
+
+
+
+	dialogues caller;
+	char decision;
+	cout << "Thanks for starting this cancerfest! remember that all commands are case-sensitive, because we're too lazy to actually do anything else. Play in fullscreen for best experience.\n\n";
+	system("pause");
+	cout << "You wake up in a small yellow cot, stirred from your meme-related dreams.\nEnter anything to observe the room you're in." << endl;
+	cin >> decision;
+	caller.introduction();
+	caller.topdecision();
+	caller.cameratrigger();
+
+
+
+
+
 	;
 	system("pause");
 
-    return 0;
+	return 0;
 }
-
 
